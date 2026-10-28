@@ -1,4 +1,8 @@
 
+from fastapi import Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
 from fastapi import FastAPI, HTTPException
 from requests import RequestException
 from pydantic import ValidationError
@@ -16,6 +20,7 @@ app = FastAPI(
     description="Microservicio para analizar narrativas con IA y PostgreSQL",
     version="1.0.0"
 )
+templates = Jinja2Templates(directory="templates")
 
 
 # 1. ENDPOINT RAÍZ
@@ -115,3 +120,48 @@ def listar_registros():
             status_code=500,
             detail="No se pudieron consultar los registros"
         )
+@app.get("/web", response_class=HTMLResponse)
+def pagina_web(request: Request):
+    with SessionLocal() as db:
+        registros = db.scalars(
+            select(AnalisisRegistro).order_by(
+                AnalisisRegistro.id.desc()
+            ).limit(50)
+        ).all()
+
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={"registros": registros}
+        )
+
+
+@app.get("/web/registros", response_class=HTMLResponse)
+def historial_web(request: Request):
+    with SessionLocal() as db:
+        registros = db.scalars(
+            select(AnalisisRegistro).order_by(
+                AnalisisRegistro.id.desc()
+            ).limit(50)
+        ).all()
+
+        return templates.TemplateResponse(
+            request=request,
+            name="historial.html",
+            context={"registros": registros}
+        )
+
+
+@app.post("/web/process", response_class=HTMLResponse)
+def procesar_desde_web(
+    request: Request,
+    texto: str = Form(min_length=1)
+):
+    # Reutilizamos la lógica ETL existente.
+    resultado = procesar_texto(TextoEntrada(texto=texto))
+
+    return templates.TemplateResponse(
+        request=request,
+        name="resultado.html",
+        context={"resultado": resultado}
+    )
