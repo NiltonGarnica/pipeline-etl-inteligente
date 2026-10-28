@@ -1,7 +1,12 @@
-from fastapi import FastAPI
+
+from fastapi import FastAPI, HTTPException
+from requests import RequestException
+
 from schemas import TextoEntrada
+from llm_service import analizar_texto
 
 app = FastAPI()
+
 
 @app.get("/")
 def inicio():
@@ -15,14 +20,19 @@ def verificar_salud():
         "service": "pipeline-etl-inteligente"
     }
 
-from pydantic import BaseModel
-
-class TextoEntrada(BaseModel):
-    texto: str
 
 @app.post("/process")
 def procesar_texto(datos: TextoEntrada):
-    return {
-        "texto_original": datos.texto,
-        "mensaje": "Texto recibido correctamente"
-    }
+    try:
+        analisis = analizar_texto(datos.texto)
+
+        return {
+            "texto_original": datos.texto,
+            "analisis": analisis.model_dump()
+        }
+
+    except RequestException:
+        raise HTTPException(
+            status_code=502,
+            detail="No se pudo comunicar con el proveedor de IA"
+        )
