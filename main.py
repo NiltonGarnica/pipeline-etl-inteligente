@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from schemas import TextoEntrada
 
 app = FastAPI()
 
@@ -25,5 +26,3 @@ def procesar_texto(datos: TextoEntrada):
         "texto_original": datos.texto,
         "mensaje": "Texto recibido correctamente"
     }
-class TextoEntrada(BaseModel):
-    texto: str
