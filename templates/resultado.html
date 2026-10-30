@@ -1,0 +1,33 @@
+
+<div class="registro">
+    <h3>Análisis completado</h3>
+
+    <p>
+        <strong>ID:</strong> {{ resultado.id }}
+    </p>
+
+    <p>
+        <strong>Categoría:</strong>
+        {{ resultado.analisis.categoria }}
+    </p>
+
+    <p>
+        <strong>Sentimiento:</strong>
+        {{ resultado.analisis.sentimiento }}
+    </p>
+
+    <p>
+        <strong>Urgencia:</strong>
+        {{ resultado.analisis.urgencia }}
+    </p>
+
+    <p>
+        <strong>Resumen:</strong>
+        {{ resultado.analisis.resumen }}
+    </p>
+
+    <p class="detalle">
+        El análisis también se guardó en PostgreSQL.
+        Pulsa "Actualizar historial" para verlo en la lista.
+    </p>
+</div>

@@ -1,0 +1,28 @@
+
+{% if registros %}
+    {% for registro in registros %}
+        <div class="registro">
+            <strong>Registro #{{ registro.id }}</strong>
+
+            <p>{{ registro.texto_original }}</p>
+
+            <p class="detalle">
+                Categoría:
+                {{ registro.resultado.get("categoria", "Sin categoría") }}
+            </p>
+
+            <p class="detalle">
+                Sentimiento:
+                {{ registro.resultado.get("sentimiento", "Sin dato") }}
+                · Urgencia:
+                {{ registro.resultado.get("urgencia", "Sin dato") }}
+            </p>
+
+            <p>
+                {{ registro.resultado.get("resumen", "Sin resumen") }}
+            </p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Todavía no hay análisis guardados.</p>
+{% endif %}
