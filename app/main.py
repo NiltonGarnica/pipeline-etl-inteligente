@@ -9,10 +9,10 @@ from pydantic import ValidationError
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 
-from schemas import TextoEntrada
-from llm_service import analizar_texto
-from database import SessionLocal
-from models import AnalisisRegistro
+from app.schemas.schemas import TextoEntrada
+from app.services.llm_service import analizar_texto
+from app.db.database import SessionLocal
+from app.db.models import AnalisisRegistro
 
 
 app = FastAPI(

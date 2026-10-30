@@ -2,7 +2,7 @@ import os
 import requests
 
 from dotenv import load_dotenv
-from schemas import AnalisisTexto
+from app.schemas.schemas import AnalisisTexto
 
 load_dotenv(override=True)
 

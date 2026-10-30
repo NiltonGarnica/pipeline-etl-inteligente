@@ -1,4 +1,4 @@
-from llm_service import analizar_texto
+from app.services.llm_service import analizar_texto
 
 texto = "Compré una laptop en 7000 Bs y funciona excelente"
 

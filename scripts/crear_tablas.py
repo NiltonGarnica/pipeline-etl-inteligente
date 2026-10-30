@@ -1,6 +1,6 @@
 from sqlalchemy import text, inspect
-from database import engine
-from models import Base,Categoria, Producto, AnalisisRegistro
+from app.db.database import engine
+from app.db.models import Base,Categoria, Producto, AnalisisRegistro
 
 
 with engine.connect() as conexion:

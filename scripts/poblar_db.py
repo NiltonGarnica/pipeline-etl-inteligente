@@ -1,8 +1,8 @@
 import random
 
 from sqlalchemy import select
-from database import SessionLocal
-from models import Categoria, Producto
+from app.db.database import SessionLocal
+from app.db.models import Categoria, Producto
 
 categorias = {
     "Laptops": (5000, 20000),

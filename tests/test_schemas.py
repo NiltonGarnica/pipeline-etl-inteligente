@@ -1,4 +1,4 @@
-from schemas import AnalisisTexto
+from app.schemas.schemas import AnalisisTexto
 
 respuesta = {
     "categoria": "Laptops",

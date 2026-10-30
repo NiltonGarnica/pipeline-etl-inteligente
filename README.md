@@ -164,7 +164,7 @@ El proyecto permite generar datos aleatorios pertenecientes a cinco categorías.
 | Teclados | 100 | 1.000 |
 | Mouse | 50 | 500 |
 
-El script `poblar_db.py` crea las categorías que no existen y genera tres productos por categoría en cada ejecución.
+El script `scripts/poblar_db.py` crea las categorías que no existen y genera tres productos por categoría en cada ejecución.
 
 La inserción de registros se realiza mediante SQLAlchemy ORM, respetando las claves primarias y foráneas.
 
@@ -245,7 +245,7 @@ OPENROUTER_MODEL=openrouter/free
 Ejecutar:
 
 ```powershell
-python crear_tablas.py
+python -m scripts.crear_tablas
 ```
 
 Este script utiliza los modelos SQLAlchemy para crear las tablas faltantes en PostgreSQL.
@@ -255,7 +255,7 @@ Este script utiliza los modelos SQLAlchemy para crear las tablas faltantes en Po
 Ejecutar:
 
 ```powershell
-python poblar_db.py
+python -m scripts.poblar_db
 ```
 
 El script inserta categorías y productos aleatorios. Cada nueva ejecución añade otros productos, por lo que pueden existir registros repetidos con nombres similares.
@@ -263,8 +263,10 @@ El script inserta categorías y productos aleatorios. Cada nueva ejecución aña
 ### 8.8. Iniciar FastAPI
 
 ```powershell
-fastapi dev main.py
+fastapi dev app/main.py
 ```
+
+Todos los comandos se ejecutan desde la raíz del proyecto.
 
 El microservicio estará disponible localmente en:
 
@@ -412,19 +414,19 @@ Se incluyen scripts de prueba para comprobar componentes específicos.
 ### Validación Pydantic
 
 ```powershell
-python test_schemas.py
+python -m tests.test_schemas
 ```
 
 ### Conexión PostgreSQL
 
 ```powershell
-python test_db.py
+python -m tests.test_db
 ```
 
 ### Integración con el LLM
 
 ```powershell
-python test_llm.py
+python -m tests.test_llm
 ```
 
 También se pueden realizar pruebas manuales mediante Swagger UI y la interfaz web.
@@ -436,18 +438,25 @@ Estas pruebas permiten verificar componentes concretos, pero no sustituyen una s
 ```text
 pipeline-etl-inteligente/
 │
-├── main.py
-├── database.py
-├── models.py
-├── schemas.py
-├── llm_service.py
-├── crear_tablas.py
-├── poblar_db.py
-├── generador.py
+├── app/                    # Aplicación FastAPI
+│   ├── main.py             # Endpoints
+│   ├── db/
+│   │   ├── database.py     # Conexión a PostgreSQL
+│   │   └── models.py       # Modelos SQLAlchemy (ORM)
+│   ├── schemas/
+│   │   └── schemas.py      # Modelos Pydantic
+│   └── services/
+│       └── llm_service.py  # Integración con OpenRouter
 │
-├── test_db.py
-├── test_llm.py
-├── test_schemas.py
+├── scripts/                # Utilidades de ejecución manual
+│   ├── crear_tablas.py
+│   ├── poblar_db.py
+│   └── generador.py
+│
+├── tests/                  # Scripts de prueba
+│   ├── test_db.py
+│   ├── test_llm.py
+│   └── test_schemas.py
 │
 ├── templates/
 │   ├── index.html

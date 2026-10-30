@@ -1,5 +1,5 @@
 from sqlalchemy import text
-from database import engine
+from app.db.database import engine
 
 try:
     with engine.connect() as conexion:
